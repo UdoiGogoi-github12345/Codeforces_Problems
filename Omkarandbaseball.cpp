@@ -1,4 +1,3 @@
-
 //░░░░░░░░░░▄
 //░░░░░░░░▄▐░▄▄█████▄▄
 //░░░░░░▄█████████████▄▀▄▄░▄▄▄
@@ -117,38 +116,60 @@ ll bitcount(ll x ) {
 
 
 
-const ll N = 1e7 + 2;
+const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
-
-//D->0(destination)
-//A->1
-//B->2
-//C->3
-void solve() {
-    int n;
-    cin >> n;
-    int dp[n + 1][4];//ll used here gives mle coz it uses more space
-    memset(dp, 0, sizeof(dp));
-    dp[0][0] = 1; // one path since we are already at D
-    // 0 --> D
-    // 1 --> A
-    // 2 --> B
-    // 3 --> C
-    fo(i, 1, n + 1) {
-        dp[i][0] = ((dp[i - 1][1] + dp[i - 1][2]) % mod + dp[i - 1][3]) % mod;
-        dp[i][1] = ((dp[i - 1][2] + dp[i - 1][3]) % mod + dp[i - 1][0]) % mod;
-        dp[i][2] = ((dp[i - 1][3] + dp[i - 1][0]) % mod + dp[i - 1][1]) % mod;
-        dp[i][3] = ((dp[i - 1][0] + dp[i - 1][1]) % mod + dp[i - 1][2]) % mod;
+bool issorted(vll& a) {
+    vll ok;
+    ok = a;
+    sort(all(ok));
+    if (ok == a) {
+        return true;
     }
-    cout << dp[n][0] % mod;
+    return false;
+}
+void solve() {
+    ll n;
+    cin >> n;
+    vll v(n);
+    fo(i, 0, n) {
+        cin >> v[i];
+    }
+    if (issorted(v)) {
+        cout << 0 << nl;
+        return;
+    }
+    //case when answer is 1
+    vll ok = v;
+    ll ct = 0;
+    vll r;
+    sort(all(ok));
+    for (ll i = 0; i < n; i++) {
+        if (v[i] != ok[i]) {
+            ct++;
+        }
+        else {
+            if (ct != 0)
+                r.pb(ct);
+            ct = 0;
+        }
+    }
+    if (ct != 0)
+        r.pb(ct);
+    if (r.size() == 1) {
+        cout << 1 << nl;
+    }
+    else {
+        cout << 2 << nl;
+    }
+
 }
 int main()
 {
 
     FIO();
-    ll t = 1;
-    //cin >> t;
+    ll t;
+    cin >> t;
     while (t--) {
         solve();
     }

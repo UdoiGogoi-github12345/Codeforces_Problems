@@ -1,49 +1,19 @@
-
-//░░░░░░░░░░▄
-//░░░░░░░░▄▐░▄▄█████▄▄
-//░░░░░░▄█████████████▄▀▄▄░▄▄▄
-//░░░░░█████████████████▄██████
-//░░░░████▐█████▌████████▌█████▌
-//░░░████▌█████▌█░████████▐▀██▀
-//░▄█████░█████▌░█░▀██████▌█▄▄▀▄
-//░▌███▌█░▐███▌▌░░▄▄░▌█▌███▐███░▀
-//▐░▐██░░▄▄▐▀█░░░▐▄█▀▌█▐███▐█
-//░░███░▌▄█▌░░▀░░▀██░░▀██████▌
-//░░░▀█▌▀██▀░▄░░░░░░░░░███▐███
-//░░░░██▌░░░░░░░░░░░░░▐███████▌
-//░░░░███░░░░░▀█▀░░░░░▐██▐███▀▌
-//░░░░▌█▌█▄░░░░░░░░░▄▄████▀░▀
-//░░░░░░█▀██▄▄▄░▄▄▀▀▒█▀█░▀
-//░░░░░░░░░▀░▀█▀▌▒▒▒░▐▄▄
-//░░░░░░░░▄▄▀▀▄░░░░░░▄▀░▀▀▄▄
-//░░░░░░▄▀░▄▀▄░▌░░░▄▀░░░░░░▄▀▀▄
-//░░░░░▐▒▄▀▄▀░▌▀▄▄▀░░░░░░▄▀▒▒▒▐
-//░░░░▐▒▒▌▀▄░░░░░▌░░░░▄▄▀▒▐▒▒▒▒▌
-//░░░▐▒▒▐░▌░▀▄░░▄▀▀▄▀▀▒▌▒▐▒▒▒▒▐▐
-//░░░▌▄▀░░░▄▀░█▀▒▒▒▒▀▄▒▌▐▒▒▒▒▒▌▌
-//░░▄▀▒▐░▄▀░░░▌▒▐▒▐▒▒▒▌▀▒▒▒▒▒▐▒▌
-//Anime in the beginning - I'm an absolute winner
-//#pragma GCC optimize("Ofast")
-//#pragma comment(linker, "/stack:200000000")
-
 #include<bits/stdc++.h>
-//#include <cstdio>
-//#include <cassert>
-//#include <ext/pb_ds/assoc_container.hpp>
-//#include <ext/pb_ds/tree_policy.hpp>
-
 using namespace std;
-//using namespace __gnu_pbds;
 
 #define ll long long
 #define ld long double
 #define ull unsigned long long
+#define lb lower_bound
+#define ub upper_bound
+#define ins insert
 #define fbo(a) find_by_order(a) //will give a-th largest element
 #define ook(a) order_of_key(a) //will give no. of elements strictly lesser than a
 #define setbits(x)      __builtin_popcountll(x)
 #define str string
 #define fo(i,a,n) for(ll i=a;i<n;i++)
 #define eb emplace_back
+#define pq priority_queue
 #define all(a) a.begin(),a.end()
 #define allr(a) a.rbegin(),a.rend()
 #define ff first
@@ -51,15 +21,17 @@ using namespace std;
 #define pb push_back
 #define sp(x,y)         fixed<<setprecision(y)<<x
 #define nl '\n'
+#define sz(x) ((int)(x).size())
 
 /*---------------------------------------------------------------------------------------------------------------------------*/
 
 typedef map<ll, ll> mll;
+typedef map<char, int> mci;
 typedef vector<long long> vll;
 typedef pair<ll, ll> pll;
+typedef map<pll, int> mpll;
 typedef vector<pll> vpll;
 typedef vector<vector<ll> > vv;
-//typedef tree<int, null_type, less<int>, rb_tree_tag,tree_order_statistics_node_update> PBDS;
 
 /*---------------------------------------------------------------------------------------------------------------------------*/
 
@@ -70,9 +42,9 @@ template <typename T, size_t N> int SIZE(const T (&t)[N]) { return N; } template
 
 /*---------------------------------------------------------------------------------------------------------------------------*/
 void FIO() {
-    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 #ifndef ONLINE_JUDGE
-    freopen("Error.txt", "w", stderr);
+	freopen("Error.txt", "w", stderr);
 #endif
 }
 /*---------------------------------------------------------------------------------------------------------------------------*/
@@ -97,16 +69,25 @@ ll setbit(int n, int pos  ) { return n = n | (1 << pos) ; }
 ll resetbit(int n, int pos ) {  return n =  n & ~(1 << pos ); }
 bool checkbit(int  n, int pos ) { return (bool ) (n & (1 << pos))  ; }
 ll bitcount(ll x ) {
-    int cnt = 0;
-    fo(i, 0, 20) {
-        if (checkbit(x, i)  )
-            cnt++ ; //if ith bit is set den return ct
-    }
-    return cnt;
+	int cnt = 0;
+	fo(i, 0, 20) {
+		if (checkbit(x, i)  )
+			cnt++ ; //if ith bit is set den return ct
+	}
+	return cnt;
 }
+
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
+const ll N = 2e5 + 7;
+const ll mod = 1e9 + 7;
+const ll INF = 9223372036854775807 ;
+
+/************************End of Template**************************/
+
+
 //You have struggled your way here with no guidance from anyone,keep the faith
+
 //You have practiced a lot,have faith in yourself
 //You have practiced a hell lot of questions,have faith in yourself
 //If nothing strikes for a period of time,calm down,drink water and think again from the start
@@ -114,42 +95,43 @@ ll bitcount(ll x ) {
 
 //AFTER THE WAR AND STRUGGLE,PEACE RESIDES,WORK HARD TODAY FOR THE BETTER TOMORROW
 
-
-
-
-const ll N = 1e7 + 2;
-const ll mod = 1e9 + 7;
-const ll INF = 9223372036854775807 ;
-
-//D->0(destination)
-//A->1
-//B->2
-//C->3
 void solve() {
-    int n;
-    cin >> n;
-    int dp[n + 1][4];//ll used here gives mle coz it uses more space
-    memset(dp, 0, sizeof(dp));
-    dp[0][0] = 1; // one path since we are already at D
-    // 0 --> D
-    // 1 --> A
-    // 2 --> B
-    // 3 --> C
-    fo(i, 1, n + 1) {
-        dp[i][0] = ((dp[i - 1][1] + dp[i - 1][2]) % mod + dp[i - 1][3]) % mod;
-        dp[i][1] = ((dp[i - 1][2] + dp[i - 1][3]) % mod + dp[i - 1][0]) % mod;
-        dp[i][2] = ((dp[i - 1][3] + dp[i - 1][0]) % mod + dp[i - 1][1]) % mod;
-        dp[i][3] = ((dp[i - 1][0] + dp[i - 1][1]) % mod + dp[i - 1][2]) % mod;
-    }
-    cout << dp[n][0] % mod;
+	ll W, H;
+	cin >> W >> H;
+	ll x1, y1, x2, y2;
+	cin >> x1 >> y1 >> x2 >> y2;
+	ll w, h;
+	cin >> w >> h;
+	ll w1 = (x2 - x1);
+	ll h1 = (y2 - y1);
+	if (w + w1 > W and h + h1 > H) {
+		cout << -1 << nl;
+		return;
+	}
+	ll ans1 = INT_MAX, ans2 = INT_MAX, ans3 = INT_MAX, ans4 = INT_MAX;
+	if (w + w1 <= W) {
+		ans1 = min(ans1, max(0ll, w - x1));
+		ans2 = min(ans1, max(0ll, x2 - (W - w)));
+		ans3 = min(ans3, max(0ll, w - x1));
+		ans4 = min(ans4, max(0ll, x2 - (W - w)));
+	}
+	if (h + h1 <= H) {
+		ans1 = min(ans1, max(0ll, y2 - (H - h)));
+		ans2 = min(ans1, max(0ll, y2 - (H - h)));
+		ans3 = min(ans3, max(0ll, h - y1));
+		ans4 = min(ans4, max(0ll, h - y1));
+	}
+	double ans = min({ans1, ans2, ans3, ans4});
+	cout << sp(ans, 9) << nl;
+
 }
 int main()
 {
 
-    FIO();
-    ll t = 1;
-    //cin >> t;
-    while (t--) {
-        solve();
-    }
+	FIO();
+	ll t;
+	cin >> t;
+	while (t--) {
+		solve();
+	}
 }

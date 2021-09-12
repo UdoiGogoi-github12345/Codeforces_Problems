@@ -61,8 +61,60 @@ template <class T> T chmin(T &a, const T &b) { return a = min(a, b); }
 
 
 void solve(){
-   
-} 
+  ll n;
+  cin>>n;
+  string s;
+  cin>>s;
+  if(n==1){
+  	if(s[0]=='0')
+  	  cout<<"No"<<nl;
+  	else{
+  		cout<<"Yes"<<nl;
+  	}
+  	return;
+  }
+  if(n==2){
+  	if(s[0]=='0' and s[1]=='0'){
+  		cout<<"No"<<nl;
+  		return;
+  	}
+  	if(s[0]=='1' and s[1]=='1'){
+  		cout<<"No"<<nl;return;
+  	}
+  	cout<<"Yes"<<nl;
+  	return;
+  }
+  for(ll i=1;i<=n-2;i++){
+  	if(s[i]=='1'){  //occupied
+  		if(s[i-1]=='1' or s[i+1]=='1'){
+           cout<<"No"<<nl;
+           return;
+  		}
+  	}
+  	else{ //unoccupied
+       //check if we can place a 1 here
+  			if(s[i-1]=='0' and s[i+1]=='0'){ //that means we can place a 1 here and the given one is not optimal 
+  				cout<<"No"<<nl;return;
+  			}
+  	}
+  }
+  
+  //for the last string character
+  if(n>=3 and s[n-1]=='0'){
+    if(s[n-2]=='0' and s[n-3]=='1'){
+    	cout<<"No"<<nl;
+    	return;
+    }
+  }
+  //for the first string character
+  if(n>=3 and s[0]=='0'){
+    if(s[1]=='0' and s[2]=='1'){
+    	cout<<"No"<<nl;
+    	return;
+    }
+  }
+  cout<<"Yes"<<nl;
+}
 int main()
 {
 	dairymilk6969
@@ -71,8 +123,8 @@ int main()
 	freopen("outputf.in", "w", stdout);
 #endif
    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	 ll t;
-	 cin>>t;
+	 ll t=1;
+	 //cin>>t;
 	 while(t--){
 	 	   solve();
 	   }

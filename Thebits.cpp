@@ -61,8 +61,26 @@ template <class T> T chmin(T &a, const T &b) { return a = min(a, b); }
 
 
 void solve(){
-   
-} 
+  ll n;cin>>n;
+  str a,b;
+  cin>>a>>b;
+  ll ct1=0,ct2=0,ct3=0,ct4=0;
+  fo(i,0,n){
+  	if(a[i]=='0' and b[i]=='0'){
+  		ct1++;
+  	}
+  	else if(a[i]=='1' and b[i]=='1'){
+  		ct2++;
+  	}
+  	else if(a[i]=='1' and b[i]=='0'){
+  		ct3++;
+  	}
+  	else if(a[i]=='0' and b[i]=='1'){
+  		ct4++;
+  	}
+  }
+  cout<<(ct1*ct2)+(ct1*ct3)+(ct3*ct4)<<nl;
+}
 int main()
 {
 	dairymilk6969
@@ -71,8 +89,8 @@ int main()
 	freopen("outputf.in", "w", stdout);
 #endif
    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	 ll t;
-	 cin>>t;
+	 ll t=1;
+	 //cin>>t;
 	 while(t--){
 	 	   solve();
 	   }

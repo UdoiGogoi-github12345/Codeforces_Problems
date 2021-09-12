@@ -61,8 +61,22 @@ template <class T> T chmin(T &a, const T &b) { return a = min(a, b); }
 
 
 void solve(){
-   
-} 
+   ll n;
+   cin>>n;
+   ll a[n+1];
+   for(ll i=1;i<=n;i++){
+   	cin>>a[i];
+   }
+   ll res=INT_MAX;
+   for(ll x=1;x<=n;x++){  //choosing the xth floor
+   	ll ans=0;
+   	for(ll i=1;i<=n;i++){ //travsering the floor array
+        ans+=a[i]*(abs(x-i)+abs(i-1)+abs(1-x));
+   	}
+   	res=min(ans,res);
+   }
+   cout<<2*res<<nl;
+}
 int main()
 {
 	dairymilk6969
@@ -71,8 +85,8 @@ int main()
 	freopen("outputf.in", "w", stdout);
 #endif
    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	 ll t;
-	 cin>>t;
+	 ll t=1;
+	 //cin>>t;
 	 while(t--){
 	 	   solve();
 	   }

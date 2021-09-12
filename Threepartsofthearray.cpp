@@ -61,8 +61,33 @@ template <class T> T chmin(T &a, const T &b) { return a = min(a, b); }
 
 
 void solve(){
-   
-} 
+   ll n;cin>>n;
+   ll a[n];
+   fo(i,0,n){
+   	cin>>a[i];
+   }
+   ll left=0,right=n-1;
+   ll sum1=0,sum2=0,ans=INT_MIN;
+   while(left<=right){
+   	 if(sum1>sum2){
+   	 	sum2+=a[right];
+   	 	right--;
+   	 }
+   	 else{
+       sum1+=a[left];
+       left++;
+   	 }
+   	 if(sum1==sum2){
+   	 	ans=max(ans,sum1);
+   	 }
+   }
+   if(ans==INT_MIN){
+   	cout<<0<<nl;
+   }
+   else{
+   	cout<<ans<<nl;
+   }
+}
 int main()
 {
 	dairymilk6969
@@ -71,8 +96,8 @@ int main()
 	freopen("outputf.in", "w", stdout);
 #endif
    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	 ll t;
-	 cin>>t;
+	 ll t=1;
+	 //cin>>t;
 	 while(t--){
 	 	   solve();
 	   }

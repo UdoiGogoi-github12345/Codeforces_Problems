@@ -1,10 +1,9 @@
-
 //░░░░░░░░░░▄
 //░░░░░░░░▄▐░▄▄█████▄▄
 //░░░░░░▄█████████████▄▀▄▄░▄▄▄
 //░░░░░█████████████████▄██████
 //░░░░████▐█████▌████████▌█████▌
-//░░░████▌█████▌█░████████▐▀██▀
+//░░░████▌█████▌█░████████▐▀██▀B
 //░▄█████░█████▌░█░▀██████▌█▄▄▀▄
 //░▌███▌█░▐███▌▌░░▄▄░▌█▌███▐███░▀
 //▐░▐██░░▄▄▐▀█░░░▐▄█▀▌█▐███▐█
@@ -117,38 +116,35 @@ ll bitcount(ll x ) {
 
 
 
-const ll N = 1e7 + 2;
+const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
 
-//D->0(destination)
-//A->1
-//B->2
-//C->3
 void solve() {
-    int n;
-    cin >> n;
-    int dp[n + 1][4];//ll used here gives mle coz it uses more space
-    memset(dp, 0, sizeof(dp));
-    dp[0][0] = 1; // one path since we are already at D
-    // 0 --> D
-    // 1 --> A
-    // 2 --> B
-    // 3 --> C
-    fo(i, 1, n + 1) {
-        dp[i][0] = ((dp[i - 1][1] + dp[i - 1][2]) % mod + dp[i - 1][3]) % mod;
-        dp[i][1] = ((dp[i - 1][2] + dp[i - 1][3]) % mod + dp[i - 1][0]) % mod;
-        dp[i][2] = ((dp[i - 1][3] + dp[i - 1][0]) % mod + dp[i - 1][1]) % mod;
-        dp[i][3] = ((dp[i - 1][0] + dp[i - 1][1]) % mod + dp[i - 1][2]) % mod;
+    ll y, k, n;
+    cin >> y >> k >> n;
+    vll res;
+    for (ll ok = 0; ok <= (ll)(1e5); ok++) {
+        ll possible = k * ok - y;
+        if (possible + y <= n and possible >= 1) {
+            res.pb(possible);
+        }
     }
-    cout << dp[n][0] % mod;
+    if (res.empty()) {
+        cout << -1 << nl;
+        return;
+    }
+
+    for (auto it : res) {
+        cout << it << " ";
+    }
 }
 int main()
 {
 
     FIO();
     ll t = 1;
-    //cin >> t;
+    //cin>>t;
     while (t--) {
         solve();
     }

@@ -57,12 +57,39 @@ template <class T> T chmin(T &a, const T &b) { return a = min(a, b); }
 
  /***************End of Template****************/
  /***************KEEP CODING*******************/
- 
-
+  ll n,m;
+  mll mp;
+  ll cnt[105];
+bool check(ll x){
+	ll sum=0;
+    for(auto it:mp){
+    	sum+=((it.ss)/x);
+    }
+    if(sum>=n){
+    	return true;
+    }
+    return false;
+}
 
 void solve(){
-   
-} 
+   cin>>n>>m;
+   ll a[m];
+   fo(i,0,m){
+   	cin>>a[i];
+   	mp[a[i]]++;
+   }
+   ll low=1,high=10000;
+   while(low<high){
+   	ll mid=low+(high-low)/2;
+   	if(check(mid)){
+   		low=mid+1;
+   	}
+   	else{
+   		high=mid;
+   	}
+   }
+   cout<<low-1<<nl;
+}
 int main()
 {
 	dairymilk6969
@@ -71,8 +98,8 @@ int main()
 	freopen("outputf.in", "w", stdout);
 #endif
    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	 ll t;
-	 cin>>t;
+	 ll t=1;
+	 //cin>>t;
 	 while(t--){
 	 	   solve();
 	   }

@@ -1,4 +1,3 @@
-
 //░░░░░░░░░░▄
 //░░░░░░░░▄▐░▄▄█████▄▄
 //░░░░░░▄█████████████▄▀▄▄░▄▄▄
@@ -114,41 +113,114 @@ ll bitcount(ll x ) {
 
 //AFTER THE WAR AND STRUGGLE,PEACE RESIDES,WORK HARD TODAY FOR THE BETTER TOMORROW
 
+bool is_al(char c) {
+    if (c >= 'A' && c <= 'Z') return true;
+    return false;
+}
+bool is_num(char c) {
+    if (c >= '0' && c <= '9') return true;
+    return false;
+}
 
 
 
-const ll N = 1e7 + 2;
+const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
 
-//D->0(destination)
-//A->1
-//B->2
-//C->3
 void solve() {
-    int n;
-    cin >> n;
-    int dp[n + 1][4];//ll used here gives mle coz it uses more space
-    memset(dp, 0, sizeof(dp));
-    dp[0][0] = 1; // one path since we are already at D
-    // 0 --> D
-    // 1 --> A
-    // 2 --> B
-    // 3 --> C
-    fo(i, 1, n + 1) {
-        dp[i][0] = ((dp[i - 1][1] + dp[i - 1][2]) % mod + dp[i - 1][3]) % mod;
-        dp[i][1] = ((dp[i - 1][2] + dp[i - 1][3]) % mod + dp[i - 1][0]) % mod;
-        dp[i][2] = ((dp[i - 1][3] + dp[i - 1][0]) % mod + dp[i - 1][1]) % mod;
-        dp[i][3] = ((dp[i - 1][0] + dp[i - 1][1]) % mod + dp[i - 1][2]) % mod;
+
+    string s; cin >> s;
+    bool found = false;
+    for (int i = 0; i < s.size(); i++) {
+        if (s[i] == 'R') {
+            if (is_num(s[i + 1])) {
+                for (int j = i + 2; j < s.size(); j++) {
+                    if (s[j] == 'C' ) {
+                        found = true;
+                        break;
+                    }
+                }
+
+            }
+        }
+        if (found)
+            break;
     }
-    cout << dp[n][0] % mod;
+
+    if (found) {
+        //RXCY
+        // X --> row number
+        // Y --> col number
+
+        string ans, row;
+        bool ok = false;
+
+        for (int i = 1; i < (int)s.size(); i++) {
+            if (ok) {
+                ans.pb(s[i]);
+                continue;
+            }
+
+            if (s[i] == 'C') {
+                ok = true;
+                continue;
+            }
+            row.pb(s[i]);
+
+        }
+        ll n = stoll(ans);
+
+        ans.clear();
+
+        //ye sab cheeze wahi baat hui bianry to decimal decimal to binary
+        //ye sab same baat hain
+        while (n > 0) {
+            ll rem = n % 27;
+            if (rem == 0) {
+                char c = 'Z';
+                ans.pb('Z');
+                n /= 26;
+                n--;//dhyaan rakhio
+            }
+            else {
+                char ch = 'A' + rem - 1;
+                ans.pb(ch);
+                n /= 26;
+            }
+        }
+
+        reverse(all(ans));
+        cout << ans << row << endl;
+    }
+    else {
+        string col, row;
+        for (int i = 0; i < s.size(); i++) {
+            if (is_al(s[i])) {
+                col.pb(s[i]);
+            }
+            else {
+                row.pb(s[i]);
+            }
+        }
+        reverse(all(col));
+
+        int power = 1;
+        int val = 0;
+        for (int i = 0; i < (int)col.size(); i++) {
+            val += (col[i] - 'A' + 1) * power;
+            power *= 26;
+        }
+        cout << "R" << row << "C" << val << endl;
+
+    }
 }
 int main()
 {
 
     FIO();
-    ll t = 1;
-    //cin >> t;
+    ll t;
+    cin >> t;
     while (t--) {
         solve();
     }

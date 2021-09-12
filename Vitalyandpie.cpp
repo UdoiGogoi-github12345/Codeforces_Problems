@@ -59,9 +59,26 @@ template <class T> T chmin(T &a, const T &b) { return a = min(a, b); }
  /***************KEEP CODING*******************/
  
 
-
+int cnt[26];
+ll ans;
 void solve(){
-   
+   ll n;
+   cin>>n;
+   str s;
+   cin>>s;
+   for(int i=0;i<s.length();i++){
+   	if(s[i]>=97 and s[i]<=122){
+        cnt[s[i]]++;
+   	}
+   	if(s[i]>=65 and s[i]<=90){
+   		if(cnt[tolower(s[i])]>0){
+   			cnt[tolower(s[i])]--;
+   		}
+   	  else
+   		ans++;
+   	}
+   }
+   cout<<ans<<nl;
 } 
 int main()
 {
@@ -71,8 +88,8 @@ int main()
 	freopen("outputf.in", "w", stdout);
 #endif
    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	 ll t;
-	 cin>>t;
+	 ll t=1;
+	 //in>>t;
 	 while(t--){
 	 	   solve();
 	   }

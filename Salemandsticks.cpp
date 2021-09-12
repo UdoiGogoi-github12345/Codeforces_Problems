@@ -61,7 +61,24 @@ template <class T> T chmin(T &a, const T &b) { return a = min(a, b); }
 
 
 void solve(){
-   
+   ll n;
+   cin>>n;
+   ll a[n];
+   fo(i,0,n){
+   	cin>>a[i];
+   }
+   ll res=INT_MAX,idx=-1;
+   fo(i,1,101){
+   	ll sum=0;
+   	fo(j,0,n){
+       sum+=max(0ll,(abs(a[j]-i))-1ll);
+   	}
+   	if(sum<res){
+   		res=sum;
+   		idx=i;
+   	}
+   }
+   cout<<idx<<" "<<res<<nl;
 } 
 int main()
 {
@@ -71,8 +88,8 @@ int main()
 	freopen("outputf.in", "w", stdout);
 #endif
    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	 ll t;
-	 cin>>t;
+	 ll t=1;
+	 //cin>>t;
 	 while(t--){
 	 	   solve();
 	   }

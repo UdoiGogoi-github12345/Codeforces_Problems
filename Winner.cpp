@@ -1,49 +1,19 @@
-
-//░░░░░░░░░░▄
-//░░░░░░░░▄▐░▄▄█████▄▄
-//░░░░░░▄█████████████▄▀▄▄░▄▄▄
-//░░░░░█████████████████▄██████
-//░░░░████▐█████▌████████▌█████▌
-//░░░████▌█████▌█░████████▐▀██▀
-//░▄█████░█████▌░█░▀██████▌█▄▄▀▄
-//░▌███▌█░▐███▌▌░░▄▄░▌█▌███▐███░▀
-//▐░▐██░░▄▄▐▀█░░░▐▄█▀▌█▐███▐█
-//░░███░▌▄█▌░░▀░░▀██░░▀██████▌
-//░░░▀█▌▀██▀░▄░░░░░░░░░███▐███
-//░░░░██▌░░░░░░░░░░░░░▐███████▌
-//░░░░███░░░░░▀█▀░░░░░▐██▐███▀▌
-//░░░░▌█▌█▄░░░░░░░░░▄▄████▀░▀
-//░░░░░░█▀██▄▄▄░▄▄▀▀▒█▀█░▀
-//░░░░░░░░░▀░▀█▀▌▒▒▒░▐▄▄
-//░░░░░░░░▄▄▀▀▄░░░░░░▄▀░▀▀▄▄
-//░░░░░░▄▀░▄▀▄░▌░░░▄▀░░░░░░▄▀▀▄
-//░░░░░▐▒▄▀▄▀░▌▀▄▄▀░░░░░░▄▀▒▒▒▐
-//░░░░▐▒▒▌▀▄░░░░░▌░░░░▄▄▀▒▐▒▒▒▒▌
-//░░░▐▒▒▐░▌░▀▄░░▄▀▀▄▀▀▒▌▒▐▒▒▒▒▐▐
-//░░░▌▄▀░░░▄▀░█▀▒▒▒▒▀▄▒▌▐▒▒▒▒▒▌▌
-//░░▄▀▒▐░▄▀░░░▌▒▐▒▐▒▒▒▌▀▒▒▒▒▒▐▒▌
-//Anime in the beginning - I'm an absolute winner
-//#pragma GCC optimize("Ofast")
-//#pragma comment(linker, "/stack:200000000")
-
 #include<bits/stdc++.h>
-//#include <cstdio>
-//#include <cassert>
-//#include <ext/pb_ds/assoc_container.hpp>
-//#include <ext/pb_ds/tree_policy.hpp>
-
 using namespace std;
-//using namespace __gnu_pbds;
 
 #define ll long long
 #define ld long double
 #define ull unsigned long long
+#define lb lower_bound
+#define ub upper_bound
+#define ins insert
 #define fbo(a) find_by_order(a) //will give a-th largest element
 #define ook(a) order_of_key(a) //will give no. of elements strictly lesser than a
 #define setbits(x)      __builtin_popcountll(x)
 #define str string
 #define fo(i,a,n) for(ll i=a;i<n;i++)
 #define eb emplace_back
+#define pq priority_queue
 #define all(a) a.begin(),a.end()
 #define allr(a) a.rbegin(),a.rend()
 #define ff first
@@ -51,15 +21,17 @@ using namespace std;
 #define pb push_back
 #define sp(x,y)         fixed<<setprecision(y)<<x
 #define nl '\n'
+#define sz(x) ((int)(x).size())
 
 /*---------------------------------------------------------------------------------------------------------------------------*/
 
 typedef map<ll, ll> mll;
+typedef map<char, int> mci;
 typedef vector<long long> vll;
 typedef pair<ll, ll> pll;
+typedef map<pll, int> mpll;
 typedef vector<pll> vpll;
 typedef vector<vector<ll> > vv;
-//typedef tree<int, null_type, less<int>, rb_tree_tag,tree_order_statistics_node_update> PBDS;
 
 /*---------------------------------------------------------------------------------------------------------------------------*/
 
@@ -104,9 +76,18 @@ ll bitcount(ll x ) {
     }
     return cnt;
 }
+
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
+const ll N = 2e5 + 7;
+const ll mod = 1e9 + 7;
+const ll INF = 9223372036854775807 ;
+
+/************************End of Template**************************/
+
+
 //You have struggled your way here with no guidance from anyone,keep the faith
+
 //You have practiced a lot,have faith in yourself
 //You have practiced a hell lot of questions,have faith in yourself
 //If nothing strikes for a period of time,calm down,drink water and think again from the start
@@ -114,34 +95,36 @@ ll bitcount(ll x ) {
 
 //AFTER THE WAR AND STRUGGLE,PEACE RESIDES,WORK HARD TODAY FOR THE BETTER TOMORROW
 
-
-
-
-const ll N = 1e7 + 2;
-const ll mod = 1e9 + 7;
-const ll INF = 9223372036854775807 ;
-
-//D->0(destination)
-//A->1
-//B->2
-//C->3
 void solve() {
-    int n;
+    ll n;
     cin >> n;
-    int dp[n + 1][4];//ll used here gives mle coz it uses more space
-    memset(dp, 0, sizeof(dp));
-    dp[0][0] = 1; // one path since we are already at D
-    // 0 --> D
-    // 1 --> A
-    // 2 --> B
-    // 3 --> C
-    fo(i, 1, n + 1) {
-        dp[i][0] = ((dp[i - 1][1] + dp[i - 1][2]) % mod + dp[i - 1][3]) % mod;
-        dp[i][1] = ((dp[i - 1][2] + dp[i - 1][3]) % mod + dp[i - 1][0]) % mod;
-        dp[i][2] = ((dp[i - 1][3] + dp[i - 1][0]) % mod + dp[i - 1][1]) % mod;
-        dp[i][3] = ((dp[i - 1][0] + dp[i - 1][1]) % mod + dp[i - 1][2]) % mod;
+    map<string, ll> mp;
+    string res;
+    ll ans = INT_MIN;
+    vector<pair<string, ll>> v;
+    for (ll i = 1; i <= n; i++)
+    {
+        string s;
+        cin >> s;
+        ll k;
+        cin >> k;
+        v.pb({s, k});
+        mp[s] += k;
     }
-    cout << dp[n][0] % mod;
+    for (auto it : mp) {
+        if (it.ss > ans) {
+            ans = it.ss;
+        }
+    }
+    map<string, ll> mp2;
+    for (ll i = 0; i < v.size(); i++) {
+        mp2[v[i].ff] += v[i].ss;
+        if (mp2[v[i].ff] >= ans and mp[v[i].ff] == ans) {
+            cout << v[i].ff << nl;
+            return;
+        }
+    }
+
 }
 int main()
 {

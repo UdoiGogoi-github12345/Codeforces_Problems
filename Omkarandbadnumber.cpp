@@ -60,9 +60,50 @@ template <class T> T chmin(T &a, const T &b) { return a = min(a, b); }
  
 
 
+	
+
 void solve(){
-   
-} 
+   ll n;
+   cin>>n;
+   vll a(n);
+   mll mp;
+   fo(i,0,n){
+   	cin>>a[i];
+   	mp[a[i]]++;
+   }
+   ll f=0;
+   for(ll i=0;i<a.size();i++){
+   	sort(all(a));
+   	if(a.size()>300){
+   		f=1;
+   		break;
+   	}
+   	for(ll j=i+1;j<a.size();j++){
+         if(!mp.count(abs(a[i]-a[j]))){
+            a.pb(abs(a[i]-a[j]));
+            mp[abs(a[i]-a[j])]++;
+            i=-1;
+            break;
+   	    }
+   	   else{
+   		  continue;
+   	    }
+   	}
+   }
+   if(f){
+   	cout<<"NO"<<nl;
+   	return;
+   }
+   cout<<"YES"<<nl;
+   cout<<a.size()<<nl;
+   sort(all(a));
+   for(auto it:a){
+   	cout<<it<<" ";
+   }
+   cout<<nl;
+
+
+}
 int main()
 {
 	dairymilk6969

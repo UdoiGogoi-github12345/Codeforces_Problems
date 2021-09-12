@@ -1,4 +1,3 @@
-
 //░░░░░░░░░░▄
 //░░░░░░░░▄▐░▄▄█████▄▄
 //░░░░░░▄█████████████▄▀▄▄░▄▄▄
@@ -117,31 +116,52 @@ ll bitcount(ll x ) {
 
 
 
-const ll N = 1e7 + 2;
+const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
 
-//D->0(destination)
-//A->1
-//B->2
-//C->3
 void solve() {
-    int n;
-    cin >> n;
-    int dp[n + 1][4];//ll used here gives mle coz it uses more space
-    memset(dp, 0, sizeof(dp));
-    dp[0][0] = 1; // one path since we are already at D
-    // 0 --> D
-    // 1 --> A
-    // 2 --> B
-    // 3 --> C
-    fo(i, 1, n + 1) {
-        dp[i][0] = ((dp[i - 1][1] + dp[i - 1][2]) % mod + dp[i - 1][3]) % mod;
-        dp[i][1] = ((dp[i - 1][2] + dp[i - 1][3]) % mod + dp[i - 1][0]) % mod;
-        dp[i][2] = ((dp[i - 1][3] + dp[i - 1][0]) % mod + dp[i - 1][1]) % mod;
-        dp[i][3] = ((dp[i - 1][0] + dp[i - 1][1]) % mod + dp[i - 1][2]) % mod;
+    ll n, p;
+    cin >> n >> p;
+    str s;
+    cin >> s;
+    p--;
+    if (p >= n / 2) {
+        reverse(all(s));
+        p = n - p - 1;
     }
-    cout << dp[n][0] % mod;
+    ll left = p, right = p;
+    for (ll i = 0; i < n / 2; i++) {
+        if (s[i] != s[n - i - 1]) {
+            left = i;
+            break;
+        }
+    }
+    for (ll i = n / 2 - 1; i >= 0; i--) {
+        if (s[i] != s[n - i - 1]) {
+            right = i;
+            break;
+        }
+    }
+
+    ll steps = 0;
+    for (ll i = right; i >= left; i--) {
+        if (s[i] != s[n - i - 1]) {
+            steps += min(abs(s[i] - s[n - i - 1] ), 26 - abs(s[n - i - 1] - s[i]));
+        }
+    }
+    steps += abs(left - right);
+    if (p <= left) {
+        steps += left - p;
+    }
+    else if (p >= right) {
+        steps += (p - right);
+    }
+    else {
+        steps += min(abs(right - p), abs(left - p));
+    }
+    cout << steps << nl;
+
 }
 int main()
 {

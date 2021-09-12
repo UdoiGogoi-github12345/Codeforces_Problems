@@ -58,11 +58,63 @@ template <class T> T chmin(T &a, const T &b) { return a = min(a, b); }
  /***************End of Template****************/
  /***************KEEP CODING*******************/
  
-
+bool find(str temp,str s){
+   if(s.find(temp)!=-1){
+      return true;
+   }
+   return false;
+}
 
 void solve(){
-   
-} 
+  ll n;
+  cin>>n;
+  str s;
+  cin>>s;
+  map<char,ll> mp;
+  fo(i,0,s.size()){
+   mp[s[i]]++;
+  }
+  ll f=0;
+  fo(i,0,26){
+   if(!(mp.count('a'+i))){
+      cout<<(char)('a'+i)<<nl;
+      f=1;
+      break;
+   }
+  }
+  if(f){
+   return;
+  }
+  fo(i,0,26){
+   fo(j,0,26){
+       string temp;
+       temp.push_back((char)('a'+i));
+       temp.push_back((char)('a'+j));
+      
+      if(!find(temp,s)){
+         cout<<temp<<nl;
+         return;
+      }
+   }
+  }
+  fo(i,0,26){
+   fo(j,0,26){
+      fo(k,0,26){
+          string temp;
+          temp.push_back((char)('a'+i));
+          temp.push_back((char)('a'+j));
+          temp.push_back((char)('a'+k));
+       
+          if(!find(temp,s)){
+            cout<<temp<<nl;
+            return;
+         }
+      }
+   }
+  }
+  
+
+}
 int main()
 {
 	dairymilk6969

@@ -61,8 +61,49 @@ template <class T> T chmin(T &a, const T &b) { return a = min(a, b); }
 
 
 void solve(){
-   
-} 
+   ll n;
+   cin>>n;
+   str a,b;
+   cin>>a>>b;
+   //map<char,ll> mp1,mp2;
+   //fo(i,0,n){
+   //	mp1[a[i]]++;
+   //	mp2[b[i]]++;
+   //}
+   //for(auto it:mp2){
+   	//if(mp1.count(it.ff)==0){
+   //		cout<<-1<<nl;
+   	//	return;
+   //	}
+   //}
+   vll res;//store the indices
+   for(ll i=0;i<n;i++){
+   	if(b[i]==a[i])
+   		continue;
+   	  	ll pos=-1;
+   	  	for(ll j=i+1;j<n;j++){
+   	  		if(b[i]==a[j]){
+   	  			pos=j;
+   	  			break;
+   	  		}
+   	  	}
+   	  	if(pos==-1){
+   	  		cout<<-1<<nl;
+   	  		return;
+   	  	}
+   	  	for(ll j=pos-1;j>=i;j--){
+   	  		swap(a[j],a[j+1]);
+   	  		res.pb(j);
+   	  	}
+   	  
+   }
+   assert(a==b);
+   cout<<res.size()<<nl;
+   for(auto it:res){
+   	cout<<it+1<<" ";
+   }
+   cout<<nl;
+}
 int main()
 {
 	dairymilk6969
@@ -71,8 +112,8 @@ int main()
 	freopen("outputf.in", "w", stdout);
 #endif
    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	 ll t;
-	 cin>>t;
+	 ll t=1;
+	 //cin>>t;
 	 while(t--){
 	 	   solve();
 	   }

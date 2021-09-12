@@ -61,8 +61,18 @@ template <class T> T chmin(T &a, const T &b) { return a = min(a, b); }
 
 
 void solve(){
-   
-} 
+   ll n,k;
+   cin>>n>>k;
+   ll a[k+1];
+   fo(i,1,k+1){
+   	cin>>a[i];
+   }
+   ll ans=max(a[1],n-a[k]+1);
+   for(ll i=2;i<=k;i++){
+   	ans=max(ans,(a[i]-a[i-1])/2+1);
+   }
+   cout<<ans<<nl;
+}
 int main()
 {
 	dairymilk6969

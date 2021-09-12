@@ -1,4 +1,3 @@
-
 //░░░░░░░░░░▄
 //░░░░░░░░▄▐░▄▄█████▄▄
 //░░░░░░▄█████████████▄▀▄▄░▄▄▄
@@ -70,9 +69,9 @@ template <typename T, size_t N> int SIZE(const T (&t)[N]) { return N; } template
 
 /*---------------------------------------------------------------------------------------------------------------------------*/
 void FIO() {
-    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 #ifndef ONLINE_JUDGE
-    freopen("Error.txt", "w", stderr);
+	freopen("Error.txt", "w", stderr);
 #endif
 }
 /*---------------------------------------------------------------------------------------------------------------------------*/
@@ -97,12 +96,12 @@ ll setbit(int n, int pos  ) { return n = n | (1 << pos) ; }
 ll resetbit(int n, int pos ) {  return n =  n & ~(1 << pos ); }
 bool checkbit(int  n, int pos ) { return (bool ) (n & (1 << pos))  ; }
 ll bitcount(ll x ) {
-    int cnt = 0;
-    fo(i, 0, 20) {
-        if (checkbit(x, i)  )
-            cnt++ ; //if ith bit is set den return ct
-    }
-    return cnt;
+	int cnt = 0;
+	fo(i, 0, 20) {
+		if (checkbit(x, i)  )
+			cnt++ ; //if ith bit is set den return ct
+	}
+	return cnt;
 }
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
@@ -117,39 +116,93 @@ ll bitcount(ll x ) {
 
 
 
-const ll N = 1e7 + 2;
+const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
 
-//D->0(destination)
-//A->1
-//B->2
-//C->3
+struct grp {
+	ll sum;
+	ll pre;
+	ll suff;
+	ll ans;
+	grp() {};
+	grp(ll sum, ll pre, ll suff, ll ans) {
+		this->sum = sum;
+		this->pre = pre;
+		this->suff = suff;
+		this->ans = ans;
+	}
+};
+
+vector<grp> seg(400005);
+void build(vll& a, ll ss, ll se, ll idx) {
+	if (ss == se) {
+		if (a[ss] <= 0) {
+			seg[idx] = {a[ss], 0, 0, 0};
+		}
+		else {
+			seg[idx] = {a[ss], a[ss], a[ss], a[ss]};
+		}
+		return;
+	}
+	ll mid = ss + (se - ss) / 2;
+	build(a, ss, mid, 2 * idx);
+	build(a, mid + 1, se, 2 * idx + 1);
+	ll sum = seg[2 * idx].sum + seg[2 * idx + 1].sum;
+	ll pre = max(seg[2 * idx].pre, seg[2 * idx].sum + seg[2 * idx + 1].pre);
+	ll suff = max(seg[2 * idx + 1].suff, seg[2 * idx].suff + seg[2 * idx + 1].sum);
+	ll ans = max({seg[2 * idx].suff + seg[2 * idx + 1].pre, seg[2 * idx].ans, seg[2 * idx + 1].ans});
+	seg[idx] = grp(sum, pre, suff, ans);
+	return;
+}
+void update(vll& a, ll ss, ll se, ll i, ll inc, ll idx) {
+	if (i<ss or i>se) {
+		return;
+	}
+	if (ss == se) {
+		a[ss] = inc;
+		if (inc <= 0) {
+			seg[idx] = grp(inc, 0, 0, 0);
+		}
+		else {
+			seg[idx] = grp(inc, inc, inc, inc);
+		}
+		return;
+	}
+	ll mid = ss + (se - ss) / 2;
+	update(a, ss, mid, i, inc, 2 * idx);
+	update(a, mid + 1, se, i, inc, 2 * idx + 1);
+	ll sum = seg[2 * idx].sum + seg[2 * idx + 1].sum;
+	ll pre = max(seg[2 * idx].pre, seg[2 * idx].sum + seg[2 * idx + 1].pre);
+	ll suff = max(seg[2 * idx + 1].suff, seg[2 * idx].suff + seg[2 * idx + 1].sum);
+	ll ans = max({seg[2 * idx].suff + seg[2 * idx + 1].pre, seg[2 * idx].ans, seg[2 * idx + 1].ans});
+	seg[idx] = grp(sum, pre, suff, ans);
+	return;
+}
 void solve() {
-    int n;
-    cin >> n;
-    int dp[n + 1][4];//ll used here gives mle coz it uses more space
-    memset(dp, 0, sizeof(dp));
-    dp[0][0] = 1; // one path since we are already at D
-    // 0 --> D
-    // 1 --> A
-    // 2 --> B
-    // 3 --> C
-    fo(i, 1, n + 1) {
-        dp[i][0] = ((dp[i - 1][1] + dp[i - 1][2]) % mod + dp[i - 1][3]) % mod;
-        dp[i][1] = ((dp[i - 1][2] + dp[i - 1][3]) % mod + dp[i - 1][0]) % mod;
-        dp[i][2] = ((dp[i - 1][3] + dp[i - 1][0]) % mod + dp[i - 1][1]) % mod;
-        dp[i][3] = ((dp[i - 1][0] + dp[i - 1][1]) % mod + dp[i - 1][2]) % mod;
-    }
-    cout << dp[n][0] % mod;
+	ll n, m;
+	cin >> n >> m;
+	vll a(n);
+	fo(i, 0, n) {
+		cin >> a[i];
+	}
+	build(a, 0, n - 1, 1);
+	cout << seg[1].ans << nl;
+	for (ll i = 1; i <= m; i++) {
+		ll in, inc;
+		cin >> in >> inc;
+		update(a, 0, n - 1, in, inc, 1);
+		cout << seg[1].ans << nl;
+	}
+
 }
 int main()
 {
 
-    FIO();
-    ll t = 1;
-    //cin >> t;
-    while (t--) {
-        solve();
-    }
+	FIO();
+	ll t = 1;
+	//cin >> t;
+	while (t--) {
+		solve();
+	}
 }

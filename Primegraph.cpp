@@ -1,4 +1,3 @@
-
 //░░░░░░░░░░▄
 //░░░░░░░░▄▐░▄▄█████▄▄
 //░░░░░░▄█████████████▄▀▄▄░▄▄▄
@@ -117,31 +116,80 @@ ll bitcount(ll x ) {
 
 
 
-const ll N = 1e7 + 2;
+const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
 
-//D->0(destination)
-//A->1
-//B->2
-//C->3
+
+bool isprime(int n)
+{
+    // Corner cases
+    if (n <= 1)  return false;
+    if (n <= 3)  return true;
+
+    // This is checked so that we can skip
+    // middle five numbers in below loop
+    if (n % 2 == 0 || n % 3 == 0) return false;
+
+    for (int i = 5; i * i <= n; i = i + 6)
+        if (n % i == 0 || n % (i + 2) == 0)
+            return false;
+
+    return true;
+}
 void solve() {
-    int n;
+    ll n;
     cin >> n;
-    int dp[n + 1][4];//ll used here gives mle coz it uses more space
-    memset(dp, 0, sizeof(dp));
-    dp[0][0] = 1; // one path since we are already at D
-    // 0 --> D
-    // 1 --> A
-    // 2 --> B
-    // 3 --> C
-    fo(i, 1, n + 1) {
-        dp[i][0] = ((dp[i - 1][1] + dp[i - 1][2]) % mod + dp[i - 1][3]) % mod;
-        dp[i][1] = ((dp[i - 1][2] + dp[i - 1][3]) % mod + dp[i - 1][0]) % mod;
-        dp[i][2] = ((dp[i - 1][3] + dp[i - 1][0]) % mod + dp[i - 1][1]) % mod;
-        dp[i][3] = ((dp[i - 1][0] + dp[i - 1][1]) % mod + dp[i - 1][2]) % mod;
+    ll mat[1001][1001];
+    memset(mat, 0ll, sizeof(mat));
+    for (ll i = 0; i < n; i++) {
+        mat[i % n][(i + 1) % n] = 1;
     }
-    cout << dp[n][0] % mod;
+
+
+    if (!isprime(n)) {
+        ll ok;
+        for (ll i = n + 1;; i++) {
+            if (isprime(i)) {
+                ok = i;
+                break;
+            }
+        }
+        ll ct = ok - n;
+        //ok - n more edges needed
+        cout << n + ct << nl;
+
+        vll visited(1001, 0);
+        for (ll i = 0; i < 1001; i++) {
+            visited[i] = 0;
+        }
+
+
+        for (ll i = 0; i + 2 < n; i++) {
+            if (!visited[i] and !visited[i + 2]) {
+                visited[i] = 1;
+                visited[i + 2] = 1;
+                mat[i % n][(i + 2) % n] = 1;
+                ct--;//extra edge ko ghata raha hu;
+            }
+            if (ct == 0) {
+                break;
+            }
+        }
+
+    }
+    else if (isprime(n)) {
+        cout << n << nl;
+    }
+    //need to print the edges
+    for (ll i = 0; i < n; i++) {
+        for (ll j = 0; j < n; j++) {
+            if (mat[i][j] == 1) {
+                cout << i + 1 << " " << j + 1 << nl;
+            }
+        }
+    }
+
 }
 int main()
 {

@@ -58,11 +58,40 @@ template <class T> T chmin(T &a, const T &b) { return a = min(a, b); }
  /***************End of Template****************/
  /***************KEEP CODING*******************/
  
-
+vll indexes(507);
 
 void solve(){
+   ll n;
+   cin>>n;
+   vll a(n),b(n);
+   fo(i,0,n){
+   	cin>>a[i];
+   }
+   fo(i,0,n){
+   	cin>>b[i];
+   }
+   vpll v;
+   fo(i,0,n){
+   	v.push_back({a[i],b[i]});
+   }
+   fo(i,0,n){
+   	indexes[v[i].ff]=i;
+   }
+   vpll vv;
+   vv=v;
    
-} 
+   sort(all(vv));
+   fo(i,0,n)
+   if(vv[i].ff!=v[i].ff){
+   	cout<<i<<nl;
+   	 if((v[indexes[vv[i].ff]].ss)==(vv[i].ss)){
+   	 	db1(indexes[vv[i].ff]);
+   	 	cout<<"No"<<nl;
+   	 	return;
+   	 }
+   }
+   cout<<"Yes"<<nl;
+}
 int main()
 {
 	dairymilk6969

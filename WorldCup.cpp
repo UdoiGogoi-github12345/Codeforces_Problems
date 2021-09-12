@@ -1,11 +1,8 @@
-#pragma GCC target ("avx2")
-#pragma GCC optimization ("O3")
-#pragma GCC optimization ("unroll-loops")
-#define ONLINE_JUDGE
-
 #include<bits/stdc++.h>
-#include<iomanip>
 using namespace std;
+
+#define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
+
 #define db1(x)                cout<<#x<<": "<<x<<"\n"
 #define db2(x, y)             cout<<#x<<": "<<x<<" | "<<#y<<": "<<y<<"\n"
 #define db3(x, y, z)          cout<<#x<<":" <<x<<" | "<<#y<<": "<<y<<" | "<<#z<<": "<<z<<"\n"
@@ -20,7 +17,6 @@ using namespace std;
 #define ook(a) order_of_key(a) //will give no. of elements strictly lesser than a
 #define setbits(x)      __builtin_popcountll(x)
 #define str string
-#define dairymilk6969 ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define fo(i,a,n) for(ll i=a;i<n;i++)
 #define eb emplace_back
 #define pq priority_queue
@@ -33,6 +29,12 @@ using namespace std;
 #define sp(x,y)         fixed<<setprecision(y)<<x
 #define nl '\n'
 #define sz(x) ((int)(x).size())
+
+#ifdef dairymilk6969
+#define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
+#else
+#define debug(x);
+#endif
  
 typedef map<ll, ll> mll;
 typedef map<char, int> mci;
@@ -61,20 +63,33 @@ template <class T> T chmin(T &a, const T &b) { return a = min(a, b); }
 
 
 void solve(){
-   
-} 
+   ll n,a,b;
+   cin>>n>>a>>b;
+   a--,b--;
+   ll ct=0;
+   while(a!=b){
+   	a=a/2;
+   	b=b/2;
+   	n=n/2;
+   	ct++;
+   }
+   if(n==1){
+   	cout<<"Final!"<<nl;
+   }
+   else{
+   	cout<<ct<<nl;
+   }
+}
 int main()
 {
-	dairymilk6969
-#ifndef ONLINE_JUDGE
-	freopen("inputf.in", "r", stdin);
-	freopen("outputf.in", "w", stdout);
+#ifdef dairymilk6969
+	freopen("Error.txt", "w", stderr);
 #endif
-   ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	 ll t;
-	 cin>>t;
-	 while(t--){
-	 	   solve();
-	   }
+	fastio();
+	ll t=1;
+   //cin>>t;
+   while(t--){
+      solve();
+   }
 }
  

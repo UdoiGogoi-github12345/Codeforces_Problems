@@ -1,4 +1,3 @@
-
 //░░░░░░░░░░▄
 //░░░░░░░░▄▐░▄▄█████▄▄
 //░░░░░░▄█████████████▄▀▄▄░▄▄▄
@@ -117,38 +116,39 @@ ll bitcount(ll x ) {
 
 
 
-const ll N = 1e7 + 2;
+const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
 
-//D->0(destination)
-//A->1
-//B->2
-//C->3
-void solve() {
-    int n;
-    cin >> n;
-    int dp[n + 1][4];//ll used here gives mle coz it uses more space
-    memset(dp, 0, sizeof(dp));
-    dp[0][0] = 1; // one path since we are already at D
-    // 0 --> D
-    // 1 --> A
-    // 2 --> B
-    // 3 --> C
-    fo(i, 1, n + 1) {
-        dp[i][0] = ((dp[i - 1][1] + dp[i - 1][2]) % mod + dp[i - 1][3]) % mod;
-        dp[i][1] = ((dp[i - 1][2] + dp[i - 1][3]) % mod + dp[i - 1][0]) % mod;
-        dp[i][2] = ((dp[i - 1][3] + dp[i - 1][0]) % mod + dp[i - 1][1]) % mod;
-        dp[i][3] = ((dp[i - 1][0] + dp[i - 1][1]) % mod + dp[i - 1][2]) % mod;
+ll binpow(ll a, ll n) {
+    //returns a raised to the power of n
+    //easy peezy
+    ll ans = 1;
+    while (n)
+    {
+        if (n & 1) {
+            ans = (ans * a) % mod;
+        }
+        a = (a * a) % mod;
+        n >>= 1;
     }
-    cout << dp[n][0] % mod;
+    return ans;
+}
+
+void solve() {
+    ll n, k;
+    cin >> n >> k;
+    ll ans = 1;
+    ans = (ans * binpow(k, k - 1)) % mod;
+    ans = (ans * binpow(n - k, n - k)) % mod;
+    cout << ans << nl;
 }
 int main()
 {
 
     FIO();
     ll t = 1;
-    //cin >> t;
+    //cin>>t;
     while (t--) {
         solve();
     }

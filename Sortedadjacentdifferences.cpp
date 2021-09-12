@@ -61,8 +61,35 @@ template <class T> T chmin(T &a, const T &b) { return a = min(a, b); }
 
 
 void solve(){
-   
-} 
+  ll n;
+  cin>>n;
+  vll v(n);
+  fo(i,0,n){
+  	cin>>v[i];
+  }
+  sort(all(v));
+  if(n%2){
+  	cout<<v[n/2]<<" ";
+  	ll left=n/2-1;
+  	ll right=n/2+1;
+
+   while(left>=0 and right<n){
+     	cout<<v[left]<<" "<<v[right]<<" ";
+     	left--;
+     	right++;
+     }
+     cout<<nl;
+  }
+  else{
+     ll left=n/2-1,right=n/2;
+     while(left>=0 and right<n){
+     	cout<<v[left]<<" "<<v[right]<<" ";
+     	left--;
+     	right++;
+     }
+     cout<<nl;
+  }
+}
 int main()
 {
 	dairymilk6969
