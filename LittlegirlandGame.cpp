@@ -119,33 +119,46 @@ ll bitcount(ll x ) {
 const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
-bool check(vll v, ll x) {
-    if (v[((v.size() + 1) / 2) - 1] == x) {
-        return true;
-    }
-    return false;
-}
+
 
 void solve() {
-    ll n, k;
-    cin >> n >> k;
-    vll v(n);
-    fo(i, 0, n) {
-        cin >> v[i];
+    string s;
+    cin >> s;
+    map<char, ll> mp;
+    for (ll i = 0; i < s.size(); i++) {
+        mp[s[i]]++;
     }
-    sort(all(v));
-    while (!check(v, k)) {
-        v.pb(k);
-        sort(all(v));
+    ll cto = 0, cte = 0;
+    for (auto it : mp) {
+        if (it.ss % 2) {
+            cto++;
+        }
+        else {
+            cte++;
+        }
     }
-    cout << v.size() - n << nl;
+    if (cto == 0) {
+        cout << "First" << nl;
+        return;
+    }
+    if (cto == 1) {
+        cout << "First" << nl;
+        return;
+    }
+    if (cto % 2 == 0) {
+        cout << "Second" << nl;
+        return;
+    }
+    cout << "First" << nl;
+
+
 }
 int main()
 {
 
     FIO();
     ll t = 1;
-    //cin >> t;
+    //cin>>t;
     while (t--) {
         solve();
     }

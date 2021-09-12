@@ -69,9 +69,9 @@ template <typename T, size_t N> int SIZE(const T (&t)[N]) { return N; } template
 
 /*---------------------------------------------------------------------------------------------------------------------------*/
 void FIO() {
-    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 #ifndef ONLINE_JUDGE
-    freopen("Error.txt", "w", stderr);
+	freopen("Error.txt", "w", stderr);
 #endif
 }
 /*---------------------------------------------------------------------------------------------------------------------------*/
@@ -96,12 +96,12 @@ ll setbit(int n, int pos  ) { return n = n | (1 << pos) ; }
 ll resetbit(int n, int pos ) {  return n =  n & ~(1 << pos ); }
 bool checkbit(int  n, int pos ) { return (bool ) (n & (1 << pos))  ; }
 ll bitcount(ll x ) {
-    int cnt = 0;
-    fo(i, 0, 20) {
-        if (checkbit(x, i)  )
-            cnt++ ; //if ith bit is set den return ct
-    }
-    return cnt;
+	int cnt = 0;
+	fo(i, 0, 20) {
+		if (checkbit(x, i)  )
+			cnt++ ; //if ith bit is set den return ct
+	}
+	return cnt;
 }
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
@@ -119,34 +119,64 @@ ll bitcount(ll x ) {
 const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
-bool check(vll v, ll x) {
-    if (v[((v.size() + 1) / 2) - 1] == x) {
-        return true;
-    }
-    return false;
+
+#define MAX 200005
+long long bit[MAX];
+
+long long query(int indx) {
+	long long sum = 0;
+	while (indx) {
+		sum += bit[indx];
+		indx -= (indx & -indx);
+	}
+	return sum;
+}
+
+void update(int indx, int x) {
+	assert(indx != 0);
+	while (indx < MAX) {
+		bit[indx] += x;
+		indx += (indx & -indx);
+	}
 }
 
 void solve() {
-    ll n, k;
-    cin >> n >> k;
-    vll v(n);
-    fo(i, 0, n) {
-        cin >> v[i];
-    }
-    sort(all(v));
-    while (!check(v, k)) {
-        v.pb(k);
-        sort(all(v));
-    }
-    cout << v.size() - n << nl;
+	int n, q;
+	cin >> n >> q;
+	vector<long long> a(n + 1);
+	//jo index me query me jyada baar aa raha usko maximum eleemnt ke saath jor
+
+	for (int i = 1; i <= n; i++) {
+		cin >> a[i];//1 indexed
+	}
+	sort(all(a));//ascending order
+	while (q--) {
+		int l, r;
+		cin >> l >> r;
+		update(l, 1);//increasing the count from l to r
+		update(r + 1, -1);///decreasing the effect of the count if it exceeded r
+	}
+	vector<long long> ok(n + 1);
+	for (ll i = 1; i <= n; i++) {
+		ok[i] = query(i); //har index kitni baar aya starting from index 1 to index n
+	}
+	sort(all(ok));
+	ll res = 0;
+	for (ll i = 1; i <= n; i++) {
+		res += (ok[i] * a[i]);
+	}
+	cout << res << nl;
+
+
 }
+
 int main()
 {
 
-    FIO();
-    ll t = 1;
-    //cin >> t;
-    while (t--) {
-        solve();
-    }
+	FIO();
+	ll t = 1;
+	//cin>>t;
+	while (t--) {
+		solve();
+	}
 }

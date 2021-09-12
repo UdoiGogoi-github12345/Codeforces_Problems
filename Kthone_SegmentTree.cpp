@@ -69,9 +69,9 @@ template <typename T, size_t N> int SIZE(const T (&t)[N]) { return N; } template
 
 /*---------------------------------------------------------------------------------------------------------------------------*/
 void FIO() {
-    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 #ifndef ONLINE_JUDGE
-    freopen("Error.txt", "w", stderr);
+	freopen("Error.txt", "w", stderr);
 #endif
 }
 /*---------------------------------------------------------------------------------------------------------------------------*/
@@ -96,12 +96,12 @@ ll setbit(int n, int pos  ) { return n = n | (1 << pos) ; }
 ll resetbit(int n, int pos ) {  return n =  n & ~(1 << pos ); }
 bool checkbit(int  n, int pos ) { return (bool ) (n & (1 << pos))  ; }
 ll bitcount(ll x ) {
-    int cnt = 0;
-    fo(i, 0, 20) {
-        if (checkbit(x, i)  )
-            cnt++ ; //if ith bit is set den return ct
-    }
-    return cnt;
+	int cnt = 0;
+	fo(i, 0, 20) {
+		if (checkbit(x, i)  )
+			cnt++ ; //if ith bit is set den return ct
+	}
+	return cnt;
 }
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
@@ -119,34 +119,91 @@ ll bitcount(ll x ) {
 const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
-bool check(vll v, ll x) {
-    if (v[((v.size() + 1) / 2) - 1] == x) {
-        return true;
-    }
-    return false;
+
+
+vll seg(400005);
+void build(vll& a, ll s, ll e, ll idx) {
+	if (s == e) {
+		seg[idx] = a[s];
+		return;
+	}
+	ll mid = s + (e - s) / 2;
+	build(a, s, mid, 2 * idx);
+	build(a, mid + 1, e, 2 * idx + 1);
+	seg[idx] = seg[2 * idx] + seg[2 * idx + 1];
+	return;
 }
 
+void update(vll& a, ll ss, ll se, ll idx, ll i) {
+	if (i<ss or i>se) {
+		return;
+	}
+
+	if (ss == se) {
+		if (a[ss] == 0) {
+			a[ss] = 1;
+			seg[idx] = 1;
+		}
+		else {
+			a[ss] = 0;
+			seg[idx] = 0;
+		}
+		return;
+	}
+	ll mid = ss + (se - ss) / 2;
+	update(a, ss, mid, 2 * idx, i);
+	update(a, mid + 1, se, 2 * idx + 1, i);
+	seg[idx] = seg[2 * idx] + seg[2 * idx + 1];
+	return;
+
+
+}
+
+ll query(vll& a, ll ss, ll se, ll idx, ll k) {
+	if (ss == se) {
+		return ss;
+	}
+	ll mid = (ss + se) / 2;
+	if (k < seg[2 * idx]) {
+		return query(a, ss, mid, 2 * idx, k);
+	}
+	else {
+		return query(a, mid + 1, se, 2 * idx + 1, k - seg[2 * idx]);
+	}
+}
+
+
 void solve() {
-    ll n, k;
-    cin >> n >> k;
-    vll v(n);
-    fo(i, 0, n) {
-        cin >> v[i];
-    }
-    sort(all(v));
-    while (!check(v, k)) {
-        v.pb(k);
-        sort(all(v));
-    }
-    cout << v.size() - n << nl;
+	ll n, m;
+	cin >> n >> m;
+	vll a(n);
+	fo(i, 0, n) {
+		cin >> a[i];
+	}
+	seg.resize(4 * n + 1);
+	for (ll i = 0; i <= 4 * n + 1; i++) {
+		seg[i] = {0};
+	}
+	build(a, 0, n - 1, 1);
+	for (ll i = 1; i <= m; i++) {
+		ll p, b;
+		cin >> p >> b;
+		if (p == 1) {
+			update(a, 0, n - 1, 1, b);
+		}
+		else if (p == 2) {
+			cout << query(a, 0, n - 1, 1, b) << nl;
+		}
+
+	}
 }
 int main()
 {
 
-    FIO();
-    ll t = 1;
-    //cin >> t;
-    while (t--) {
-        solve();
-    }
+	FIO();
+	ll t = 1;
+	//cin >> t;
+	while (t--) {
+		solve();
+	}
 }

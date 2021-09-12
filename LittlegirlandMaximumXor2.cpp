@@ -119,33 +119,45 @@ ll bitcount(ll x ) {
 const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
-bool check(vll v, ll x) {
-    if (v[((v.size() + 1) / 2) - 1] == x) {
-        return true;
-    }
-    return false;
-}
 
+ll calc(ll base, ll n) {
+    ll sum = 1;
+    //return base^n
+    ll i = 1;
+    while (i <= n) {
+        sum *= base;
+        i++;
+    }
+    return sum;
+}
 void solve() {
-    ll n, k;
-    cin >> n >> k;
-    vll v(n);
-    fo(i, 0, n) {
-        cin >> v[i];
+    ll l, r;
+    cin >> l >> r;
+    ll diff = r - l;
+    if (diff == 0) {
+        cout << 0 << nl;
+        return;
     }
-    sort(all(v));
-    while (!check(v, k)) {
-        v.pb(k);
-        sort(all(v));
+    ll res = 0;
+    for (ll i = 63; i >= 0; i--) {
+        if ((l >> i) != (r >> i)) {
+            for (ll j = 0; j <= i; j++) {
+                res += calc(2, j);//without a function like calc it would give wrong answer
+            }
+            break;
+        }
     }
-    cout << v.size() - n << nl;
+    cout << res << nl;
+
+
+
 }
 int main()
 {
 
     FIO();
     ll t = 1;
-    //cin >> t;
+    //cin>>t;
     while (t--) {
         solve();
     }

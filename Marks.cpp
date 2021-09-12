@@ -119,26 +119,38 @@ ll bitcount(ll x ) {
 const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
-bool check(vll v, ll x) {
-    if (v[((v.size() + 1) / 2) - 1] == x) {
-        return true;
-    }
-    return false;
-}
 
 void solve() {
-    ll n, k;
-    cin >> n >> k;
-    vll v(n);
+    ll n, m;
+    cin >> n >> m;
+    vector<string> v(n);
     fo(i, 0, n) {
-        cin >> v[i];
+        str ok;
+        cin >> ok;
+        v[i] = (ok);
     }
-    sort(all(v));
-    while (!check(v, k)) {
-        v.pb(k);
-        sort(all(v));
+    set<ll> res;
+    fo(i, 0, m) {
+        set<ll> s;
+        ll mx = INT_MIN;
+        fo(j, 0, n) {
+            if ((v[j][i] - '0') > mx) {
+                mx = v[j][i] - '0';
+                s.clear();
+                s.insert(j);
+            }
+            else if ((v[j][i] - '0') == mx) {
+                s.insert(j);
+            }
+            else {
+                continue;
+            }
+        }
+        for (auto it : s) {
+            res.insert(it);
+        }
     }
-    cout << v.size() - n << nl;
+    cout << (ll) res.size() << nl;
 }
 int main()
 {

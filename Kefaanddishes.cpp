@@ -1,48 +1,21 @@
-//░░░░░░░░░░▄
-//░░░░░░░░▄▐░▄▄█████▄▄
-//░░░░░░▄█████████████▄▀▄▄░▄▄▄
-//░░░░░█████████████████▄██████
-//░░░░████▐█████▌████████▌█████▌
-//░░░████▌█████▌█░████████▐▀██▀
-//░▄█████░█████▌░█░▀██████▌█▄▄▀▄
-//░▌███▌█░▐███▌▌░░▄▄░▌█▌███▐███░▀
-//▐░▐██░░▄▄▐▀█░░░▐▄█▀▌█▐███▐█
-//░░███░▌▄█▌░░▀░░▀██░░▀██████▌
-//░░░▀█▌▀██▀░▄░░░░░░░░░███▐███
-//░░░░██▌░░░░░░░░░░░░░▐███████▌
-//░░░░███░░░░░▀█▀░░░░░▐██▐███▀▌
-//░░░░▌█▌█▄░░░░░░░░░▄▄████▀░▀
-//░░░░░░█▀██▄▄▄░▄▄▀▀▒█▀█░▀
-//░░░░░░░░░▀░▀█▀▌▒▒▒░▐▄▄
-//░░░░░░░░▄▄▀▀▄░░░░░░▄▀░▀▀▄▄
-//░░░░░░▄▀░▄▀▄░▌░░░▄▀░░░░░░▄▀▀▄
-//░░░░░▐▒▄▀▄▀░▌▀▄▄▀░░░░░░▄▀▒▒▒▐
-//░░░░▐▒▒▌▀▄░░░░░▌░░░░▄▄▀▒▐▒▒▒▒▌
-//░░░▐▒▒▐░▌░▀▄░░▄▀▀▄▀▀▒▌▒▐▒▒▒▒▐▐
-//░░░▌▄▀░░░▄▀░█▀▒▒▒▒▀▄▒▌▐▒▒▒▒▒▌▌
-//░░▄▀▒▐░▄▀░░░▌▒▐▒▐▒▒▒▌▀▒▒▒▒▒▐▒▌
-//Anime in the beginning - I'm an absolute winner
-//#pragma GCC optimize("Ofast")
-//#pragma comment(linker, "/stack:200000000")
 
 #include<bits/stdc++.h>
-//#include <cstdio>
-//#include <cassert>
-//#include <ext/pb_ds/assoc_container.hpp>
-//#include <ext/pb_ds/tree_policy.hpp>
-
 using namespace std;
-//using namespace __gnu_pbds;
+
 
 #define ll long long
 #define ld long double
 #define ull unsigned long long
+#define lb lower_bound
+#define ub upper_bound
+#define ins insert
 #define fbo(a) find_by_order(a) //will give a-th largest element
 #define ook(a) order_of_key(a) //will give no. of elements strictly lesser than a
 #define setbits(x)      __builtin_popcountll(x)
 #define str string
 #define fo(i,a,n) for(ll i=a;i<n;i++)
 #define eb emplace_back
+#define pq priority_queue
 #define all(a) a.begin(),a.end()
 #define allr(a) a.rbegin(),a.rend()
 #define ff first
@@ -50,15 +23,17 @@ using namespace std;
 #define pb push_back
 #define sp(x,y)         fixed<<setprecision(y)<<x
 #define nl '\n'
+#define sz(x) ((int)(x).size())
 
 /*---------------------------------------------------------------------------------------------------------------------------*/
 
 typedef map<ll, ll> mll;
+typedef map<char, int> mci;
 typedef vector<long long> vll;
 typedef pair<ll, ll> pll;
+typedef map<pll, int> mpll;
 typedef vector<pll> vpll;
 typedef vector<vector<ll> > vv;
-//typedef tree<int, null_type, less<int>, rb_tree_tag,tree_order_statistics_node_update> PBDS;
 
 /*---------------------------------------------------------------------------------------------------------------------------*/
 
@@ -103,9 +78,18 @@ ll bitcount(ll x ) {
     }
     return cnt;
 }
+
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
+const ll N = 2e5 + 7;
+const ll mod = 1e9 + 7;
+const ll INF = 9223372036854775807 ;
+
+/************************End of Template**************************/
+
+
 //You have struggled your way here with no guidance from anyone,keep the faith
+
 //You have practiced a lot,have faith in yourself
 //You have practiced a hell lot of questions,have faith in yourself
 //If nothing strikes for a period of time,calm down,drink water and think again from the start
@@ -114,31 +98,45 @@ ll bitcount(ll x ) {
 //AFTER THE WAR AND STRUGGLE,PEACE RESIDES,WORK HARD TODAY FOR THE BETTER TOMORROW
 
 
+ll n, m, k;
+ll a[25];
+ll dp[(1 << 19)][19];
+map<pair<ll, ll>, ll>mp;
 
-
-const ll N = 2e5 + 7;
-const ll mod = 1e9 + 7;
-const ll INF = 9223372036854775807 ;
-bool check(vll v, ll x) {
-    if (v[((v.size() + 1) / 2) - 1] == x) {
-        return true;
+ll func(ll mask, ll pre) {
+    if (bitcount(mask) == m) {
+        return 0ll;
     }
-    return false;
+    ll &ans = dp[mask][pre];
+    if (ans != -1) {
+        return dp[mask][pre];
+    }
+    ans = 0;
+    for (ll i = 0; i < n; i++) {
+        if (checkbit(mask, i)) { //already eaten
+            continue;
+        }
+        ans = max(ans, func(setbit(mask, i), i) + a[i] + mp[ make_pair(pre, i)] );
+    }
+    return ans;
 }
-
 void solve() {
-    ll n, k;
-    cin >> n >> k;
-    vll v(n);
+    cin >> n >> m >> k;
     fo(i, 0, n) {
-        cin >> v[i];
+        cin >> a[i];
     }
-    sort(all(v));
-    while (!check(v, k)) {
-        v.pb(k);
-        sort(all(v));
+    fo(i, 0, k) {
+        ll x, y, c;
+        cin >> x >> y >> c;
+        x--, y--;
+        mp[ {x, y}] = c;
     }
-    cout << v.size() - n << nl;
+    for (ll i = 0; i < (1 << 19); i++) {
+        for (ll j = 0; j < 19; j++) {
+            dp[i][j] = -1;
+        }
+    }
+    cout << func(0, n) << nl;
 }
 int main()
 {

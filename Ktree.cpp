@@ -69,9 +69,9 @@ template <typename T, size_t N> int SIZE(const T (&t)[N]) { return N; } template
 
 /*---------------------------------------------------------------------------------------------------------------------------*/
 void FIO() {
-    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 #ifndef ONLINE_JUDGE
-    freopen("Error.txt", "w", stderr);
+	freopen("Error.txt", "w", stderr);
 #endif
 }
 /*---------------------------------------------------------------------------------------------------------------------------*/
@@ -96,12 +96,12 @@ ll setbit(int n, int pos  ) { return n = n | (1 << pos) ; }
 ll resetbit(int n, int pos ) {  return n =  n & ~(1 << pos ); }
 bool checkbit(int  n, int pos ) { return (bool ) (n & (1 << pos))  ; }
 ll bitcount(ll x ) {
-    int cnt = 0;
-    fo(i, 0, 20) {
-        if (checkbit(x, i)  )
-            cnt++ ; //if ith bit is set den return ct
-    }
-    return cnt;
+	int cnt = 0;
+	fo(i, 0, 20) {
+		if (checkbit(x, i)  )
+			cnt++ ; //if ith bit is set den return ct
+	}
+	return cnt;
 }
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
@@ -119,34 +119,45 @@ ll bitcount(ll x ) {
 const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
-bool check(vll v, ll x) {
-    if (v[((v.size() + 1) / 2) - 1] == x) {
-        return true;
-    }
-    return false;
-}
 
+ll dp[105][2];
+ll n, k, d;
+ll dfs(ll wt, bool f) {
+	if (wt == n) {
+		if (f)
+			return 1;
+		else
+			return 0;
+	}
+	if (wt > n) {
+		return 0;
+	}
+	if (dp[wt][f] != -1) {
+		return dp[wt][f];
+	}
+	ll res = 0;
+	for (ll i = 1; i <= k; i++) {
+		bool ff = false;
+		if (i >= d) {
+			ff = true;
+		}
+		res = mod_add(res, dfs(wt + i, ff), mod);
+	}
+	return dp[wt][f] = res;
+}
 void solve() {
-    ll n, k;
-    cin >> n >> k;
-    vll v(n);
-    fo(i, 0, n) {
-        cin >> v[i];
-    }
-    sort(all(v));
-    while (!check(v, k)) {
-        v.pb(k);
-        sort(all(v));
-    }
-    cout << v.size() - n << nl;
+	cin >> n >> k >> d;
+	memset(dp, -1, sizeof(dp));
+	bool f = false;
+	cout << dfs(0, f);
 }
 int main()
 {
 
-    FIO();
-    ll t = 1;
-    //cin >> t;
-    while (t--) {
-        solve();
-    }
+	FIO();
+	ll t = 1;
+	//cin >> t;
+	while (t--) {
+		solve();
+	}
 }

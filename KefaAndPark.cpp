@@ -1,48 +1,19 @@
-//░░░░░░░░░░▄
-//░░░░░░░░▄▐░▄▄█████▄▄
-//░░░░░░▄█████████████▄▀▄▄░▄▄▄
-//░░░░░█████████████████▄██████
-//░░░░████▐█████▌████████▌█████▌
-//░░░████▌█████▌█░████████▐▀██▀
-//░▄█████░█████▌░█░▀██████▌█▄▄▀▄
-//░▌███▌█░▐███▌▌░░▄▄░▌█▌███▐███░▀
-//▐░▐██░░▄▄▐▀█░░░▐▄█▀▌█▐███▐█
-//░░███░▌▄█▌░░▀░░▀██░░▀██████▌
-//░░░▀█▌▀██▀░▄░░░░░░░░░███▐███
-//░░░░██▌░░░░░░░░░░░░░▐███████▌
-//░░░░███░░░░░▀█▀░░░░░▐██▐███▀▌
-//░░░░▌█▌█▄░░░░░░░░░▄▄████▀░▀
-//░░░░░░█▀██▄▄▄░▄▄▀▀▒█▀█░▀
-//░░░░░░░░░▀░▀█▀▌▒▒▒░▐▄▄
-//░░░░░░░░▄▄▀▀▄░░░░░░▄▀░▀▀▄▄
-//░░░░░░▄▀░▄▀▄░▌░░░▄▀░░░░░░▄▀▀▄
-//░░░░░▐▒▄▀▄▀░▌▀▄▄▀░░░░░░▄▀▒▒▒▐
-//░░░░▐▒▒▌▀▄░░░░░▌░░░░▄▄▀▒▐▒▒▒▒▌
-//░░░▐▒▒▐░▌░▀▄░░▄▀▀▄▀▀▒▌▒▐▒▒▒▒▐▐
-//░░░▌▄▀░░░▄▀░█▀▒▒▒▒▀▄▒▌▐▒▒▒▒▒▌▌
-//░░▄▀▒▐░▄▀░░░▌▒▐▒▐▒▒▒▌▀▒▒▒▒▒▐▒▌
-//Anime in the beginning - I'm an absolute winner
-//#pragma GCC optimize("Ofast")
-//#pragma comment(linker, "/stack:200000000")
-
 #include<bits/stdc++.h>
-//#include <cstdio>
-//#include <cassert>
-//#include <ext/pb_ds/assoc_container.hpp>
-//#include <ext/pb_ds/tree_policy.hpp>
-
 using namespace std;
-//using namespace __gnu_pbds;
 
 #define ll long long
 #define ld long double
 #define ull unsigned long long
+#define lb lower_bound
+#define ub upper_bound
+#define ins insert
 #define fbo(a) find_by_order(a) //will give a-th largest element
 #define ook(a) order_of_key(a) //will give no. of elements strictly lesser than a
 #define setbits(x)      __builtin_popcountll(x)
 #define str string
 #define fo(i,a,n) for(ll i=a;i<n;i++)
 #define eb emplace_back
+#define pq priority_queue
 #define all(a) a.begin(),a.end()
 #define allr(a) a.rbegin(),a.rend()
 #define ff first
@@ -50,15 +21,17 @@ using namespace std;
 #define pb push_back
 #define sp(x,y)         fixed<<setprecision(y)<<x
 #define nl '\n'
+#define sz(x) ((int)(x).size())
 
 /*---------------------------------------------------------------------------------------------------------------------------*/
 
 typedef map<ll, ll> mll;
+typedef map<char, int> mci;
 typedef vector<long long> vll;
 typedef pair<ll, ll> pll;
+typedef map<pll, int> mpll;
 typedef vector<pll> vpll;
 typedef vector<vector<ll> > vv;
-//typedef tree<int, null_type, less<int>, rb_tree_tag,tree_order_statistics_node_update> PBDS;
 
 /*---------------------------------------------------------------------------------------------------------------------------*/
 
@@ -69,9 +42,9 @@ template <typename T, size_t N> int SIZE(const T (&t)[N]) { return N; } template
 
 /*---------------------------------------------------------------------------------------------------------------------------*/
 void FIO() {
-    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 #ifndef ONLINE_JUDGE
-    freopen("Error.txt", "w", stderr);
+	freopen("Error.txt", "w", stderr);
 #endif
 }
 /*---------------------------------------------------------------------------------------------------------------------------*/
@@ -92,61 +65,64 @@ ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) %
 ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}  //only for prime m
 
 /*--------------------------------------------------------------------------------------------------------------------------*/
-ll setbit(int n, int pos  ) { return n = n | (1 << pos) ; }
-ll resetbit(int n, int pos ) {  return n =  n & ~(1 << pos ); }
-bool checkbit(int  n, int pos ) { return (bool ) (n & (1 << pos))  ; }
-ll bitcount(ll x ) {
-    int cnt = 0;
-    fo(i, 0, 20) {
-        if (checkbit(x, i)  )
-            cnt++ ; //if ith bit is set den return ct
-    }
-    return cnt;
-}
-/*--------------------------------------------------------------------------------------------------------------------------*/
-
-//You have struggled your way here with no guidance from anyone,keep the faith
-//You have practiced a lot,have faith in yourself
-//You have practiced a hell lot of questions,have faith in yourself
-//If nothing strikes for a period of time,calm down,drink water and think again from the start
-//Dont just stare at the problem use that damn pen and paper,write down whats in ur head
-
-//AFTER THE WAR AND STRUGGLE,PEACE RESIDES,WORK HARD TODAY FOR THE BETTER TOMORROW
-
-
-
 
 const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
-bool check(vll v, ll x) {
-    if (v[((v.size() + 1) / 2) - 1] == x) {
-        return true;
-    }
-    return false;
-}
 
+/************************End of Template**************************/
+
+
+vll adj[100005];
+ll n, m;
+ll ct = 0;
+vll v(100005);
+//a very good question
+ll possible = 0;
+vector<bool> visited(100005, false);
+void dfs(ll node, ll ct, ll maxi) {
+	visited[node] = true;
+	if (v[node] == 1) {
+		ct++; //if theres an adjacent cat there its ginna increate the continuing ct
+	}
+	else {
+		ct = 0; //else the contnuing count is gonna become 0
+	}
+	maxi = max(maxi, ct);
+	bool isleaf = true;
+	for (auto x : adj[node]) {
+		if (visited[x] == false) {
+			visited[x] = true;
+			isleaf = false;
+			dfs(x, ct, maxi);
+		}
+	}
+	if (isleaf and maxi <= m)
+		possible++;
+}
 void solve() {
-    ll n, k;
-    cin >> n >> k;
-    vll v(n);
-    fo(i, 0, n) {
-        cin >> v[i];
-    }
-    sort(all(v));
-    while (!check(v, k)) {
-        v.pb(k);
-        sort(all(v));
-    }
-    cout << v.size() - n << nl;
+
+	cin >> n >> m;
+	v.resize(n + 1);
+	for (ll i = 1; i <= n; i++) {
+		cin >> v[i];
+	}
+	ll x, y;
+	for (ll i = 1; i <= n - 1; i++) {
+		cin >> x >> y;
+		adj[x].pb(y);
+		adj[y].pb(x);
+	}
+	dfs(1, 0, 0);
+	cout << possible << endl;
 }
 int main()
 {
 
-    FIO();
-    ll t = 1;
-    //cin >> t;
-    while (t--) {
-        solve();
-    }
+	FIO();
+	ll t = 1;
+	//cin>>t;
+	while (t--) {
+		solve();
+	}
 }

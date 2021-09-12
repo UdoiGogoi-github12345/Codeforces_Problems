@@ -119,33 +119,65 @@ ll bitcount(ll x ) {
 const ll N = 2e5 + 7;
 const ll mod = 1e9 + 7;
 const ll INF = 9223372036854775807 ;
-bool check(vll v, ll x) {
-    if (v[((v.size() + 1) / 2) - 1] == x) {
-        return true;
+
+ll n, m, k;
+vector<vector<bool>> visited(502, vector<bool>(502, false));
+vector<vector<char>> a(502, vector<char>(502));
+int dx[4] = { -1, 1, 0, 0};
+int dy[4] = {0, 0, -1, 1};
+//basically exploiting the recursive property of dfs
+//the last k dfs function call wale '.'s banenge 'X'
+//baki s-k cells reachable rahe cox already ham unko visit karke aye hain
+void dfs( ll x, ll y) {
+    if (a[x][y] == '#') {
+        return;
     }
-    return false;
+    visited[x][y] = true;
+    for (ll i = 0; i < 4; i++) {
+        int new_x = x + dx[i];
+        int new_y = y + dy[i];
+        if (new_x >= 0 and new_x<n and new_y >= 0 and new_y < m and !visited[new_x][new_y]) {
+            dfs(new_x, new_y);
+        }
+    }
+    if (k > 0) {
+        a[x][y] = 'X';
+        k--;
+    }
 }
 
 void solve() {
-    ll n, k;
-    cin >> n >> k;
-    vll v(n);
+    cin >> n >> m >> k;
+    a.resize(n);
     fo(i, 0, n) {
-        cin >> v[i];
+        a[i].resize(m);
     }
-    sort(all(v));
-    while (!check(v, k)) {
-        v.pb(k);
-        sort(all(v));
+    for (ll i = 0; i < n; i++) {
+        for (ll j = 0; j < m; j++)
+            cin >> a[i][j];
     }
-    cout << v.size() - n << nl;
+    for (ll i = 0; i < n; i++) {
+        for (ll j = 0; j < m; j++) {
+            if (a[i][j] == '.' and !visited[i][j]) {
+                dfs(i, j);
+            }
+        }
+    }
+    for (ll i = 0; i < n; i++) {
+        for (ll j = 0; j < m; j++)
+            cout << a[i][j];
+        cout << nl;
+    }
+
+
+
 }
 int main()
 {
 
     FIO();
     ll t = 1;
-    //cin >> t;
+    //cin>>t;
     while (t--) {
         solve();
     }
