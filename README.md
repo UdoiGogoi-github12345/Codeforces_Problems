@@ -1,5 +1,5 @@
 # Codeforces_Problems
-A collection of over 350+ problems I solved in Codeforces platform
+A collection of over 600+ problems I solved in Codeforces platform
 
 ***These problems cover up the following topics:***
 * Data Structures
